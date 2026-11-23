@@ -1,0 +1,135 @@
+
+#include <stdio.h>
+
+struct Student {
+    int id;
+    char name[30];
+    int status;
+};
+
+int main() {
+    struct Student s[50];
+    int n = 0, choice, id, i, found;
+
+    while (1) {
+        printf("\n===== SCHOOL BUS SAFETY SYSTEM =====\n");
+        printf("1. Add Student\n");
+        printf("2. Student Boarding\n");
+        printf("3. Student Drop-off\n");
+        printf("4. View Students\n");
+        printf("5. Safety Check\n");
+        printf("6. Exit\n");
+
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+
+        case 1:
+            if (n == 50) {
+                printf("Student limit reached!\n");
+                break;
+            }
+
+            printf("Enter ID: ");
+            scanf("%d", &s[n].id);
+
+            printf("Enter Name: ");
+            scanf(" %29[^\n]", s[n].name);
+
+            s[n].status = 0;
+            n++;
+
+            printf("Student Added Successfully!\n");
+            break;
+
+        case 2:
+            printf("Enter Student ID: ");
+            scanf("%d", &id);
+
+            found = 0;
+
+            for (i = 0; i < n; i++) {
+                if (s[i].id == id) {
+                    found = 1;
+
+                    if (s[i].status == 0) {
+                        s[i].status = 1;
+                        printf("%s boarded the bus.\n", s[i].name);
+                    } else {
+                        printf("Student already boarded!\n");
+                    }
+                    break;
+                }
+            }
+
+            if (!found)
+                printf("Student Not Found!\n");
+
+            break;
+
+        case 3:
+            printf("Enter Student ID: ");
+            scanf("%d", &id);
+
+            found = 0;
+
+            for (i = 0; i < n; i++) {
+                if (s[i].id == id) {
+                    found = 1;
+
+                    if (s[i].status == 1) {
+                        s[i].status = 0;
+                        printf("%s dropped off safely.\n",
+                               s[i].name);
+                    } else {
+                        printf("Student is not inside the bus!\n");
+                    }
+                    break;
+                }
+            }
+
+            if (!found)
+                printf("Student Not Found!\n");
+
+            break;
+
+        case 4:
+            printf("\n--- STUDENT DETAILS ---\n");
+
+            for (i = 0; i < n; i++) {
+                printf("ID: %d | Name: %s | Status: %s\n",
+                       s[i].id,
+                       s[i].name,
+                       s[i].status ? "Inside Bus" : "Outside Bus");
+            }
+            break;
+
+        case 5:
+            printf("\n--- SAFETY CHECK ---\n");
+            found = 0;
+
+            for (i = 0; i < n; i++) {
+                if (s[i].status == 1) {
+                    printf("ALERT! %s is still inside the bus!\n",
+                           s[i].name);
+                    found++;
+                }
+            }
+
+            if (found == 0) {
+                printf("All students are outside the bus.\n");
+            }
+            break;
+
+        case 6:
+            printf("Thank you! System closed.\n");
+            return 0;
+
+        default:
+            printf("Invalid Choice!\n");
+        }
+    }
+
+    return 0;
+}
